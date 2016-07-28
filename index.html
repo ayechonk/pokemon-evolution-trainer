@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pokémon Evolution Trainer</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/font-awesome.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <button class="btn btn-default" v-on:click="savePokemon">Save Pokemon</button>
+      <button class="btn btn-default" v-on:click="loadPokemon">Load Pokemon</button>
+      <button class="btn btn-default" data-toggle="modal" data-target="#insertModal">Insert Pokemon</button>
+      <button class="btn btn-default" v-on:click="scrapPokemon">Scrap Pokemon</button>
+      <h4>Total Evolutions: {{totalEvolutions()}}</h4>
+      <div class="row">
+        <div class="col-md-4" v-for="poke in pokemon" v-if="poke.count > 0">
+          <div class="pokewrapper bg-info">
+            <div class="edit-wrapper" v-on:click="editPokemon(poke)">
+              <i class="fa {{poke.edit ? 'fa-times' : 'fa-pencil'}}" aria-hidden="true"></i>
+            </div>
+            <p>{{poke.number}}-{{poke.name}}
+              <button class="btn btn-primary btn-sm" v-on:click="caught(poke)">Caught</button>
+            </p>
+            <p>Count:
+              <input number v-model="poke.count" type="number" min="0" v-if="poke.edit"> <span v-if="!poke.edit">{{poke.count}}</span>
+              <button v-if="poke.count > 0" v-on:click="transferPokemon(poke)" class="btn btn-danger btn-sm">Transfer</button>
+            </p>
+            <p>Number of Candies:
+              <input v-model="candies[poke.number]" type="number" min="0" v-if="poke.edit">
+              <span v-if="!poke.edit">{{candies[poke.candyId]}}</span>
+            </p>
+            <p>Number of evolutions: {{this.pokeEvolutions(poke)}}
+              <button v-if="poke.evolveId != null && pokeEvolutions(poke) > 0 && poke.count > 0" class="btn btn-success" v-on:click="evolve(poke)">Evolve</button>
+            </p>
+            <div v-if="poke.evolveId != null">
+              <p>Candies needed for next evolution: {{this.candiesForNextEvolution(poke)}}</p>
+              <p>Catches needed for next evolution: {{this.catchesForNextEvolution(poke)}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add your pokemon and candies!</h4>
+          </div>
+          <div class="modal-body">
+            <div class=" form-inline form-group form-group-small clearfix">
+              <div class="col-xs-5">
+                <select class='form-control' name="selectPokes" v-model="selected">
+                  <option v-bind:value="poke" v-for="poke in pokemon | filterBy 0 in 'count'">
+                    {{poke.name}}
+                  </option>
+                </select>
+                <button class='btn btn-primary btn-sm' v-on:click="addToInsert(selected)">+</button>
+              </div>
+            </div>
+            <div v-for="poke in inserting">
+              <div class="form-inline">
+                <div class="form-group">
+                  <label for="">{{poke.number}} -- {{poke.name}}</label>
+                </div>
+                <div class="form-group form-group-sm">
+                  <label>Count</label>
+                  <input type="number" number min='0' class="form-control" placeholder="Count" v-model="poke.count">
+                </div>
+                <div class="form-group form-group-sm">
+                  <label>Candies</label>
+                  <input type="number" number min='0' class="form-control" placeholder="Candies" v-model="candies[poke.candyId]">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" v-on:click="clearInserting()" class="btn btn-default" data-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/vue.js"></script>
+  <script type="text/javascript" src="js/lodash.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
