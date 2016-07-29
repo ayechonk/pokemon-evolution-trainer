@@ -28,11 +28,11 @@
               <button class="btn btn-primary btn-sm" v-on:click="caught(poke)">Caught</button>
             </p>
             <p>Count:
-              <input number v-model="poke.count" type="number" min="0" v-if="poke.edit"> <span v-if="!poke.edit">{{poke.count}}</span>
+              <input  v-model="poke.count" type="number" number min="0" v-if="poke.edit"> <span v-if="!poke.edit">{{poke.count}}</span>
               <button v-if="poke.count > 0" v-on:click="transferPokemon(poke)" class="btn btn-danger btn-sm">Transfer</button>
             </p>
             <p>Number of Candies:
-              <input v-model="candies[poke.number]" type="number" min="0" v-if="poke.edit">
+              <input  v-model="candies[poke.number]" type="number" number min="0" v-if="poke.edit">
               <span v-if="!poke.edit">{{candies[poke.candyId]}}</span>
             </p>
             <p>Number of evolutions: {{this.pokeEvolutions(poke)}}
@@ -71,11 +71,11 @@
                 </div>
                 <div class="form-group form-group-sm">
                   <label>Count</label>
-                  <input type="number" number min='0' class="form-control" placeholder="Count" v-model="poke.count">
+                  <input type="number" number number min='0' class="form-control" placeholder="Count" v-model="poke.count">
                 </div>
                 <div class="form-group form-group-sm">
                   <label>Candies</label>
-                  <input type="number" number min='0' class="form-control" placeholder="Candies" v-model="candies[poke.candyId]">
+                  <input type="number" number number min='0' class="form-control" placeholder="Candies" v-model="candies[poke.candyId]">
                 </div>
               </div>
             </div>

@@ -19,17 +19,17 @@
 
     methods: {
 
-      clearInserting: function(){
+      clearInserting: function() {
         this.inserting = [];
         this.selected = {};
       },
 
-      editPokemon: function(poke){
-        
-         poke.edit = !poke.edit;
+      editPokemon: function(poke) {
+
+        poke.edit = !poke.edit;
       },
 
-      addToInsert: function(poke){
+      addToInsert: function(poke) {
 
         this.inserting.push(poke);
       },
@@ -66,7 +66,7 @@
           $('body').append(data);
           var list = $('#pokedex tbody tr');
           var evolvesList = $('#evolve-chart tbody tr')
-          var dex = [{}];
+          var dex = []; 
           var candies = {};
 
           $.each(list, function(i, o) {
@@ -122,9 +122,8 @@
       },
 
       caught: function(poke) {
-        console.log(poke);
         poke.count++;
-        this.candies[poke.candyId] += 4;
+        this.candies[poke.candyId] += 3;
       },
 
       pokeEvolutions: function(poke) {
