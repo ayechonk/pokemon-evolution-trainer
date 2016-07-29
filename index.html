@@ -16,10 +16,11 @@
       <button class="btn btn-default" v-on:click="savePokemon">Save Pokemon</button>
       <button class="btn btn-default" v-on:click="loadPokemon">Load Pokemon</button>
       <button class="btn btn-default" data-toggle="modal" data-target="#insertModal">Insert Pokemon</button>
-      <button class="btn btn-default" v-on:click="scrapPokemon">Scrap Pokemon</button>
+      <button class="btn btn-default" v-on:click="scrapePokemon">Scrape Pokemon</button>
       <h4>Total Evolutions: {{totalEvolutions()}}</h4>
-      <div class="row">
-        <div class="col-md-4" v-for="poke in pokemon" v-if="poke.count > 0">
+      <div class="row {{hidden?'hidden':''}}">
+        <!-- v-if="poke.count > 0" -->
+        <div class="col-md-4" v-for="poke in pokemon | filterBy hasCount">
           <div class="pokewrapper bg-info">
             <div class="edit-wrapper" v-on:click="editPokemon(poke)">
               <i class="fa {{poke.edit ? 'fa-times' : 'fa-pencil'}}" aria-hidden="true"></i>
@@ -28,11 +29,11 @@
               <button class="btn btn-primary btn-sm" v-on:click="caught(poke)">Caught</button>
             </p>
             <p>Count:
-              <input  v-model="poke.count" type="number" number min="0" v-if="poke.edit"> <span v-if="!poke.edit">{{poke.count}}</span>
+              <input v-model="poke.count" type="number" number min="0" v-if="poke.edit"> <span v-if="!poke.edit">{{poke.count}}</span>
               <button v-if="poke.count > 0" v-on:click="transferPokemon(poke)" class="btn btn-danger btn-sm">Transfer</button>
             </p>
             <p>Number of Candies:
-              <input  v-model="candies[poke.number]" type="number" number min="0" v-if="poke.edit">
+              <input v-model="candies[poke.number]" type="number" number min="0" v-if="poke.edit">
               <span v-if="!poke.edit">{{candies[poke.candyId]}}</span>
             </p>
             <p>Number of evolutions: {{this.pokeEvolutions(poke)}}
@@ -57,7 +58,7 @@
             <div class=" form-inline form-group form-group-small clearfix">
               <div class="col-xs-5">
                 <select class='form-control' name="selectPokes" v-model="selected">
-                  <option v-bind:value="poke" v-for="poke in pokemon | filterBy 0 in 'count'">
+                  <option v-bind:value="poke" v-for="poke in pokemon | filterBy hasNone">
                     {{poke.name}}
                   </option>
                 </select>

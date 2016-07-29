@@ -3,6 +3,7 @@
     el: '#app',
 
     data: {
+      hidden: true,
       pokemon: [],
       candies: {},
       selected: {},
@@ -15,9 +16,18 @@
       setInterval(function() {
         // _this.savePokemon();
       }, 5000);
+      this.hidden = false;
     },
 
     methods: {
+
+      hasCount: function(poke) {
+        return poke.count > 0;
+      },
+
+      hasNone: function(poke) {
+        return poke.count == 0;
+      },
 
       clearInserting: function() {
         this.inserting = [];
@@ -60,13 +70,13 @@
         }
       },
 
-      scrapPokemon: function() {
+      scrapePokemon: function() {
         var _this = this;
         $.get('pokecharts.html', function(data) {
           $('body').append(data);
           var list = $('#pokedex tbody tr');
           var evolvesList = $('#evolve-chart tbody tr')
-          var dex = []; 
+          var dex = [];
           var candies = {};
 
           $.each(list, function(i, o) {
