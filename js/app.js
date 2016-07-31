@@ -161,7 +161,7 @@
       evolve: function(poke) {
         poke.count--;
         this.pokemon[poke.evolveId].count++;
-        this.candies[poke.candyId]--;
+        this.candies[poke.candyId] -= poke.candiesToEvolve;
       },
 
       catchesForNextEvolution: function(poke) {
