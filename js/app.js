@@ -140,15 +140,25 @@
         if (poke.candiesToEvolve == 0)
           return 0;
         else {
-          return Math.floor(this.candies[poke.candyId] / poke.candiesToEvolve);
+          var possibleEvolutions = Math.floor(this.candies[poke.candyId] / poke.candiesToEvolve);
+          return (poke.count < possibleEvolutions ? poke.count : possibleEvolutions);
         }
       },
 
       totalEvolutions: function() {
         var total = 0;
         var _self = this;
-        $.each(this.pokemon, function(i, o) {
-          total += _self.pokeEvolutions(o);
+        $.each(this.candies, function(i, o) {
+          //get the pokemon of that candy type
+          var pokemon = _.filter(_self.pokemon, function(p) {
+            if (p.candyId == i)
+              return true;
+            else return false;
+          });
+          var mostEvoByFamily = _.maxBy(pokemon, function(p) {
+            return _self.pokeEvolutions(p);
+          });
+          total += _self.pokeEvolutions(mostEvoByFamily);
         });
         return total;
       },

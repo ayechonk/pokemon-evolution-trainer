@@ -12,15 +12,19 @@
 
 <body>
   <div id="app">
+    <header>
+      <div class="container">
+        <button class="btn btn-default" v-on:click="savePokemon">Save Pokemon</button>
+        <button class="btn btn-default" v-on:click="loadPokemon">Load Pokemon</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#insertModal">Insert Pokemon</button>
+        <button class="btn btn-default" v-on:click="scrapePokemon">Scrape Pokemon</button>
+        <h4>Total Evolutions: {{totalEvolutions()}}</h4>
+      </div>
+    </header>
     <div class="container">
-      <button class="btn btn-default" v-on:click="savePokemon">Save Pokemon</button>
-      <button class="btn btn-default" v-on:click="loadPokemon">Load Pokemon</button>
-      <button class="btn btn-default" data-toggle="modal" data-target="#insertModal">Insert Pokemon</button>
-      <button class="btn btn-default" v-on:click="scrapePokemon">Scrape Pokemon</button>
-      <h4>Total Evolutions: {{totalEvolutions()}}</h4>
-      <div class="row {{hidden?'hidden':''}}">
+      <div class="row {{hidden ?' hidden' : ''}}">
         <!-- v-if="poke.count > 0" -->
-        <div class="col-md-4" v-for="poke in pokemon | filterBy hasCount">
+        <div class="col-sm-4" v-for="poke in pokemon | filterBy hasCount">
           <div class="pokewrapper bg-info">
             <div class="edit-wrapper" v-on:click="editPokemon(poke)">
               <i class="fa {{poke.edit ? 'fa-times' : 'fa-pencil'}}" aria-hidden="true"></i>
